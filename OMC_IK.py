@@ -2,9 +2,7 @@
 # Input is a .trc file
 # Output is a scaled osim model and an .mot file
 
-#TestChange1
-#TestChange2
-#TestChange3
+# Test change A
 
 # I want to see if this new code will work for me.
 
