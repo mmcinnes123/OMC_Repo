@@ -5,7 +5,7 @@
 from OMC_IK_functions import *
 
 """ SETTINGS """
-folder_name = r'C:\Users\r03mm22\Documents\Protocol Testing\Tests\23_12_20\RawData'   # Path to the raw data files
+folder_name = r'C:\Users\r03mm22\Documents\Protocol_Testing\Tests\23_12_20\RawData'   # Path to the raw data files
 input_file_name = folder_name + r'\20thDec_Movements - Report1 - Marker_Traj.txt'
 sample_rate = 100
 

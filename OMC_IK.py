@@ -2,11 +2,6 @@
 # Input is a .trc file
 # Output is a scaled osim model and an .mot file
 
-# Test change A
-# Test change B made to new branch.
-
-# I want to see if this new code will work for me.
-
 import os
 from OMC_IK_functions import *
 
@@ -14,7 +9,7 @@ from OMC_IK_functions import *
 
 # Quick Settings
 trial_name = '20thDec'
-parent_directory = r'C:\Users\r03mm22\Documents\Protocol Testing\Tests\23_12_20\OMC'  # Path to working folder
+parent_directory = r'C:\Users\r03mm22\Documents\Protocol_Testing\Tests\23_12_20\OMC'  # Path to working folder
 static_pose_time = 5
 
 # SCALE SETTINGS
