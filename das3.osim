@@ -51,7 +51,7 @@
 				<deactivation_time_constant>0.040000000000000001</deactivation_time_constant>
 			</Thelen2003Muscle>
 		</defaults>
-		<!--The model's ground reference frame.-->
+		<!--The model's ground reference frame. An example change.-->
 		<Ground name="ground">
 			<!--The geometry used to display the axes of this Frame.-->
 			<FrameGeometry name="frame_geometry">
