@@ -226,26 +226,38 @@ def run_scale_model(scale_settings_template_file, static_pose_time, trial_name, 
     # Run the scale tool
     scale_tool.run()
 
-def adjust_scale_settings(static_pose_time, scale_settings_file):
 
-    static_pose_end_time = static_pose_time + 0.1
 
-    range_time = osim.ArrayDouble()
-    range_time.set(0, static_pose_time)
-    range_time.set(1, static_pose_end_time)
 
-    # Instantiate an ScalingTool from template
-    scale_settings = osim.ScaleTool(scale_settings_file)
+def get_quats_from_states():
 
-    model_scaler = scale_settings.getModelScaler()
 
-    # set time range
-    model_scaler.setTimeRange(range_time)
+    # analysis_settings_file = r"C:\Users\r03mm22\Documents\Protocol_Testing\Tests\23_12_20\OMC\20thDecIK_Results\Analysis_Settings.xml"
+    #
+    # # Initiate the scale tool
+    # analyze_tool = osim.AnalyzeTool(analysis_settings_file)
+    #
+    # analyze_tool.run()
 
-    # Don't know how to update Scale tool with new 'Model Scaler'
-    scale_settings
+    statesPath = r"C:\Users\r03mm22\Documents\Protocol_Testing\Tests\23_12_20\OMC\20thDecIK_Results\Right-scaled_StatesReporter_states.sto"
+    model_file_name = r"C:\Users\r03mm22\Documents\Protocol_Testing\Tests\23_12_20\OMC\das3_scaled_and_placed.osim"
 
-    scale_settings.printToXML(scale_settings_file)
+    states_sto = osim.Storage(statesPath)
+    model = osim.Model(model_file_name)
+    model.initSystem()
+
+    stateTrajectory = osim.StatesTrajectory.createFromStatesStorage(model, states_sto)
+    humerus_r = model.getBodySet().get('humerus_r')
+
+    state = stateTrajectory.get(1)
+    model.realizePosition(state)
+    rotation = humerus_r.getTransformInGround(state).R()
+
+    quat = rotation.convertRotationToQuaternion()
+
+    # calcn_rotation(n + 1,:) = [quat.get(0) quat.get(1) quat.get(2) quat.get(3)]
+
+    print(quat)
 
 
 

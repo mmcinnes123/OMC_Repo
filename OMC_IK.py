@@ -31,29 +31,31 @@ if os.path.exists(results_directory) == False:
     os.mkdir(results_directory)
 osim.Logger.addFileSink(results_directory + r'\opensim.log')
 
+#
+# # Scale the model
+# print("\nSet the static pose time in this script.")
+# scaling_confirmation = input("\nHappy to go ahead with Scaling?: ")
+# if scaling_confirmation == "No":
+#     quit()
+# run_scale_model(scale_settings_template_file, static_pose_time, trial_name, parent_directory, path_to_trc_file)
+#
+#
+# # Check we're happy to go ahead with IK
+# IK_confirmation = input("\nHappy to go ahead with IK?: ")
+# if IK_confirmation == "No":
+#     quit()
+#
+#
+# # Run the IK
+# IK_start_time = int(input("\nEnter IK start time:"))
+# IK_end_time = int(input("\nEnter IK end time:"))
+# run_OMC_IK(IK_settings_template_file, trial_name, IK_start_time, IK_end_time,
+#            results_directory, path_to_trc_file, path_to_scaled_model)
+#
+#
+#
+# # Log the marker error
+# find_marker_error(trial_name, results_directory)
+#
 
-# Scale the model
-print("\nSet the static pose time in this script.")
-scaling_confirmation = input("\nHappy to go ahead with Scaling?: ")
-if scaling_confirmation == "No":
-    quit()
-run_scale_model(scale_settings_template_file, static_pose_time, trial_name, parent_directory, path_to_trc_file)
-
-
-# Check we're happy to go ahead with IK
-IK_confirmation = input("\nHappy to go ahead with IK?: ")
-if IK_confirmation == "No":
-    quit()
-
-
-# Run the IK
-IK_start_time = int(input("\nEnter IK start time:"))
-IK_end_time = int(input("\nEnter IK end time:"))
-run_OMC_IK(IK_settings_template_file, trial_name, IK_start_time, IK_end_time,
-           results_directory, path_to_trc_file, path_to_scaled_model)
-
-
-
-# Log the marker error
-find_marker_error(trial_name, results_directory)
-
+get_quats_from_states()
