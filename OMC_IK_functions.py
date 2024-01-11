@@ -2,7 +2,8 @@ import opensim as osim
 import math
 import pandas as pd
 import numpy as np
-from scipy.signal import butter, filtfilt
+from scipy.spatial.transform import Rotation as R
+
 
 
 # Function to write the data_out into a TRC file
@@ -227,37 +228,47 @@ def run_scale_model(scale_settings_template_file, static_pose_time, trial_name, 
     scale_tool.run()
 
 
+def create_states_file_from_coordinates_file(analyze_settings_template_file, model_file, coord_file,
+                                             results_path, start_time, end_time):
+
+    # Instantiate a Analyze Tool
+    analyze_tool = osim.AnalyzeTool(analyze_settings_template_file)
+    analyze_tool.setModelFilename(model_file)
+    analyze_tool.setResultsDir(results_path)
+    analyze_tool.setCoordinatesFileName(coord_file)
+    analyze_tool.setInitialTime(start_time)
+    analyze_tool.setFinalTime(end_time)
+    analyze_tool.run()
 
 
-def get_quats_from_states():
+def get_HT_angles_from_states(results_dir, model_file):
 
+    states_sto = osim.Storage(results_dir + r'\Right-scaled_StatesReporter_states.sto')
+    model = osim.Model(model_file)
+    humerus_r = model.getBodySet().get('humerus_r')
+    thorax = model.getBodySet().get('thorax')
+    stateTrajectory = osim.StatesTrajectory.createFromStatesStorage(model, states_sto)
+    n_rows = stateTrajectory.getSize()
 
-    # analysis_settings_file = r"C:\Users\r03mm22\Documents\Protocol_Testing\Tests\23_12_20\OMC\20thDecIK_Results\Analysis_Settings.xml"
-    #
-    # # Initiate the scale tool
-    # analyze_tool = osim.AnalyzeTool(analysis_settings_file)
-    #
-    # analyze_tool.run()
-
-    statesPath = r"C:\Users\r03mm22\Documents\Protocol_Testing\Tests\23_12_20\OMC\20thDecIK_Results\Right-scaled_StatesReporter_states.sto"
-    model_file_name = r"C:\Users\r03mm22\Documents\Protocol_Testing\Tests\23_12_20\OMC\das3_scaled_and_placed.osim"
-
-    states_sto = osim.Storage(statesPath)
-    model = osim.Model(model_file_name)
     model.initSystem()
 
-    stateTrajectory = osim.StatesTrajectory.createFromStatesStorage(model, states_sto)
-    humerus_r = model.getBodySet().get('humerus_r')
+    euler_array = np.zeros((n_rows,3))
+    for row in range(n_rows):
+        state = stateTrajectory.get(row)
+        model.realizePosition(state)
+        R_HT = humerus_r.findTransformBetween(state, thorax).R()    #Finds rotation between two bodies
+        quat_HT = R_HT.convertRotationToQuaternion()
+        scipyR_HT = R.from_quat([quat_HT.get(1), quat_HT.get(2), quat_HT.get(3), quat_HT.get(0)])
+        eul_HT = scipyR_HT.as_euler('YZY', degrees=True)
+        euler_array[row] = eul_HT
 
-    state = stateTrajectory.get(1)
-    model.realizePosition(state)
-    rotation = humerus_r.getTransformInGround(state).R()
+    eul_df = pd.DataFrame(euler_array)
+    eul_df.to_csv(results_dir + r"\GH_Eulers.csv", mode='w', index=False, header=False, encoding='utf-8', na_rep='nan')
 
-    quat = rotation.convertRotationToQuaternion()
 
-    # calcn_rotation(n + 1,:) = [quat.get(0) quat.get(1) quat.get(2) quat.get(3)]
 
-    print(quat)
+
+
 
 
 
