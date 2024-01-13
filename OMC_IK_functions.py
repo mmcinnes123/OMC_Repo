@@ -241,30 +241,6 @@ def create_states_file_from_coordinates_file(analyze_settings_template_file, mod
     analyze_tool.run()
 
 
-def get_HT_angles_from_states(results_dir, model_file):
-
-    states_sto = osim.Storage(results_dir + r'\Right-scaled_StatesReporter_states.sto')
-    model = osim.Model(model_file)
-    humerus_r = model.getBodySet().get('humerus_r')
-    thorax = model.getBodySet().get('thorax')
-    stateTrajectory = osim.StatesTrajectory.createFromStatesStorage(model, states_sto)
-    n_rows = stateTrajectory.getSize()
-
-    model.initSystem()
-
-    euler_array = np.zeros((n_rows,3))
-    for row in range(n_rows):
-        state = stateTrajectory.get(row)
-        model.realizePosition(state)
-        R_HT = humerus_r.findTransformBetween(state, thorax).R()    #Finds rotation between two bodies
-        quat_HT = R_HT.convertRotationToQuaternion()
-        scipyR_HT = R.from_quat([quat_HT.get(1), quat_HT.get(2), quat_HT.get(3), quat_HT.get(0)])
-        eul_HT = scipyR_HT.as_euler('YZY', degrees=True)
-        euler_array[row] = eul_HT
-
-    eul_df = pd.DataFrame(euler_array)
-    eul_df.to_csv(results_dir + r"\GH_Eulers.csv", mode='w', index=False, header=False, encoding='utf-8', na_rep='nan')
-
 
 
 

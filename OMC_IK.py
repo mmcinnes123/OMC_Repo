@@ -68,4 +68,3 @@ find_marker_error(trial_name, results_directory)
 # Get humero-thoracic joint angles from relative orientation of humerus and thorax bodies
 create_states_file_from_coordinates_file(analyze_settings_template_file, model_file_for_analysis,
                                          coord_file_for_analysis, results_directory, IK_start_time, IK_end_time)
-get_HT_angles_from_states(results_directory, model_file_for_analysis)
