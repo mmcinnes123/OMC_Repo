@@ -55,16 +55,14 @@ if IK_confirmation == "No":
 
 
 # Run the IK
-
 run_OMC_IK(IK_settings_template_file, trial_name, IK_start_time, IK_end_time,
            results_directory, path_to_trc_file, path_to_scaled_model)
-
 
 
 # Log the marker error
 find_marker_error(trial_name, results_directory)
 
 
-# Get humero-thoracic joint angles from relative orientation of humerus and thorax bodies
+# Create a states file to be used in analysis
 create_states_file_from_coordinates_file(analyze_settings_template_file, model_file_for_analysis,
                                          coord_file_for_analysis, results_directory, IK_start_time, IK_end_time)
