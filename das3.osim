@@ -401,7 +401,7 @@
 							<!--Default appearance attributes for this Geometry-->
 							<Appearance>
 								<!--Flag indicating whether the associated Geometry is visible or hidden.-->
-								<visible>true</visible>
+								<visible>false</visible>
 								<!--The opacity used to display the geometry between 0:transparent, 1:opaque.-->
 								<opacity>1</opacity>
 								<!--The color, (red, green, blue), [0, 1], used to display the geometry. -->
@@ -466,7 +466,7 @@
 							<!--Default appearance attributes for this Geometry-->
 							<Appearance>
 								<!--Flag indicating whether the associated Geometry is visible or hidden.-->
-								<visible>true</visible>
+								<visible>false</visible>
 								<!--The opacity used to display the geometry between 0:transparent, 1:opaque.-->
 								<opacity>1</opacity>
 								<!--The color, (red, green, blue), [0, 1], used to display the geometry. -->

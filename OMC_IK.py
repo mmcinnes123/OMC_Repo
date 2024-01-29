@@ -8,15 +8,15 @@ from OMC_IK_functions import *
 """ SETTINGS """
 
 # Quick Settings
-trial_name = '20thDec'
-parent_directory = r'C:\Users\r03mm22\Documents\Protocol_Testing\Tests\23_12_20\OMC'  # Path to working folder
+trial_name = '22ndJan'
+parent_directory = r'C:\Users\r03mm22\Documents\Protocol_Testing\Tests\24_01_22\OMC'  # Path to working folder
 static_pose_time = 5
-IK_start_time = 18
+IK_start_time = 0
 IK_end_time = 40
 
 # Define some file paths
 results_directory = os.path.join(parent_directory, trial_name + 'IK_Results')
-path_to_trc_file = parent_directory.replace(r'\OMC', r'\BL_marker_pos.trc') # Define a path to the marker data
+path_to_trc_file = parent_directory + r'\BL_marker_pos.trc'     # Define a path to the marker data
 path_to_scaled_model = parent_directory + r'\das3_scaled_and_placed.osim'   # Define a path to the scaled model
 
 # SCALE SETTINGS
