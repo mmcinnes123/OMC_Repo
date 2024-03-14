@@ -10,7 +10,7 @@
 		<!--The accuracy of the solution in absolute terms, i.e. the number of significant digits to which the solution can be trusted. Default 1e-5.-->
 		<accuracy>1.0000000000000001e-05</accuracy>
 		<!--The time range for the study.-->
-		<time_range>18 40</time_range>
+		<time_range></time_range>
 		<!--Name of the resulting inverse kinematics motion (.mot) file.-->
 		<output_motion_file>C:\Users\r03mm22\Documents\OpenSenseTesting\23_12_20\OMC_withThoraxCon_andAdjuMark\20thDecIK_Results\OMC_IK_results.mot</output_motion_file>
 		<!--Flag (true or false) indicating whether or not to report errors from the inverse kinematics solution. Default is true.-->

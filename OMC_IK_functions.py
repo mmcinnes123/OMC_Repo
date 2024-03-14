@@ -57,37 +57,37 @@ def MM_2_trc(input_file_name, sample_rate, output_file_name):
                 }
 
     # Read in MM .txt file
-    print("\nReading in data...")
+    print("Reading in data...")
     dataset = pd.read_csv(input_file_name, delimiter="\t")
 
     # Remove any values above the cutoff, to account for unstable/large values produced by MM interpolation
     largest_value_in_dataset = dataset.max(numeric_only=True).max()
     cutoff = 10
     if largest_value_in_dataset > cutoff:
-        print("\nLarge values encountered! Removing anything above " + str(cutoff) + "m from the following markers:")
+        print("Large values encountered (above " + str(cutoff) + "m) from the following markers:")
     pd.set_option('display.max_rows', None)
     max_values = pd.DataFrame(dataset.max())
     for row in range(len(max_values)):
         if max_values.iloc[row, 0] > cutoff:
             print(max_values.head(len(max_values)).index.values[row])
-    # Replace values above/below cutoff with Nan
-    dataset.where(dataset <= cutoff, inplace=True)
-    dataset.where(dataset >= -cutoff, inplace=True)
+    # # Replace values above/below cutoff with Nan
+    # dataset.where(dataset <= cutoff, inplace=True)
+    # dataset.where(dataset >= -cutoff, inplace=True)
 
-    # Fill NaN values with linear interpolation
-    print("\nInterpolating any Nan values...")
-    def interpolate_df(df):
-        nan_count = df.isna().sum()
-        pd.set_option('display.max_rows', None)
-        print("Number of NaNs encountered:")
-        print(nan_count)
-        df = df.interpolate()
-        # Deal with any nans at start
-        df = df.interpolate(method='linear', limit=100, limit_direction='backward')
-        return df
-    dataset = interpolate_df(dataset)
+    # # Fill NaN values with linear interpolation
+    # print("\nInterpolating any Nan values...")
+    # def interpolate_df(df):
+    #     nan_count = df.isna().sum()
+    #     pd.set_option('display.max_rows', None)
+    #     print("Number of NaNs encountered:")
+    #     print(nan_count)
+    #     df = df.interpolate()
+    #     # Deal with any nans at start
+    #     df = df.interpolate(method='linear', limit=100, limit_direction='backward')
+    #     return df
+    # dataset = interpolate_df(dataset)
 
-    print("\nExtracting data from MM file... ")
+    print("Extracting data from MM file... ")
 
     # Extract all the data and append to Data_out dataframe
     for index in range(dataset.shape[0]):
@@ -140,11 +140,11 @@ def MM_2_trc(input_file_name, sample_rate, output_file_name):
     writeTRC(data_out, outputfile)
     outputfile.close()
 
-    print("\nWritten data to .trc file")
+    print("Written data to .trc file")
 
 
 
-def run_OMC_IK(IK_settings_template_file, trial_name, start_time, end_time,
+def run_OMC_IK(IK_settings_template_file, trial_name, trim_bool, start_time, end_time,
                results_directory, marker_file_name, scaled_model_file_name):
 
     # Instantiate an InverseKinematicsTool from template
@@ -153,12 +153,13 @@ def run_OMC_IK(IK_settings_template_file, trial_name, start_time, end_time,
     IK_tool.setName(trial_name)
     IK_tool.set_model_file(scaled_model_file_name)
     IK_tool.set_marker_file(marker_file_name)
-    IK_tool.set_time_range(0, start_time)
-    IK_tool.set_time_range(1, end_time)
     IK_tool.set_results_directory(results_directory)
     IK_tool.setOutputMotionFileName(results_directory + r'\OMC_IK_results.mot')
     IK_tool.set_report_marker_locations(False)
     IK_tool.set_report_errors(True)
+    if trim_bool == True:
+        IK_tool.set_time_range(0, start_time)
+        IK_tool.set_time_range(1, end_time)
 
     # Update the settings in a setup file
     IK_tool.printToXML(results_directory + r'\IK_Settings_' + trial_name + '.xml')
