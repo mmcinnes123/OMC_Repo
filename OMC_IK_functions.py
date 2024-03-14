@@ -198,7 +198,7 @@ def run_scale_model(scale_settings_template_file, static_pose_time, trial_name, 
     # Set time range of the moment the subject performed the static pose
     time_range = osim.ArrayDouble()
     time_range.set(0, static_pose_time)
-    time_range.set(1, static_pose_time + 0.1)
+    time_range.set(1, static_pose_time + 0.01)
 
     # Initiate the scale tool
     scale_tool = osim.ScaleTool(scale_settings_template_file)   # Template file to work off

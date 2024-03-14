@@ -8,11 +8,11 @@ from OMC_IK_functions import *
 """ SETTINGS """
 
 # Quick Settings
-trial_name = '22ndJan'
-parent_directory = r'C:\Users\r03mm22\Documents\Protocol_Testing\Tests\24_01_22\OMC'  # Path to working folder
-static_pose_time = 5
+trial_name = 'P2_JA_Slow'
+parent_directory = r'C:\Users\r03mm22\Documents\Protocol_Testing\2024 Data Collection\DataCollection2024\P2\OMC'  # Path to working folder
+static_pose_time = 1
 IK_start_time = 0
-IK_end_time = 40
+IK_end_time = 100
 
 # Define some file paths
 results_directory = os.path.join(parent_directory, trial_name + 'IK_Results')
