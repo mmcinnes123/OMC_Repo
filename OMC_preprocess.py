@@ -24,7 +24,7 @@ output_dir = OMC_dir + r'\OMC_trcs'
 if os.path.exists(output_dir) == False:
     os.mkdir(output_dir)
 
-# List through the collection of movement types
+# Iterate through the collection of movement types
 for trial_name in trial_name_list:
 
     print(f'\nWriting {trial_name}_marker_pos.trc...')

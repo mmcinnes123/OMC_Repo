@@ -24,10 +24,8 @@ path_to_scaled_model = os.path.join(OMC_dir, 'das3_scaled_and_placed.osim')  # D
 # IK SETTINGS
 IK_settings_template_file = 'OMC_IK_Settings.xml'   # See run_OMC_IK() for more settings.
 
-# ANALYZE SETTINGS
-analyze_settings_template_file = 'Analysis_Settings.xml'
-model_file_for_analysis = path_to_scaled_model
 
+# Iterate through the collection of movement types
 for trial_name in trial_name_list:
 
     """ MAIN """
@@ -38,7 +36,7 @@ for trial_name in trial_name_list:
     results_directory = os.path.join(OMC_dir, trial_name + '_IK_Results')       # Define a name for the new IK results folder
     if os.path.exists(results_directory) == False:
         os.mkdir(results_directory)
-    osim.Logger.addFileSink(results_directory + r'\opensim.log')
+    osim.Logger.addFileSink(results_directory + r'\IK.log')
 
 
     # Run the IK
@@ -50,7 +48,4 @@ for trial_name in trial_name_list:
     find_marker_error(trial_name, results_directory)
 
 
-    # Create a states file to be used in analysis
-    coord_file_for_analysis = os.path.join(results_directory, 'OMC_IK_results.mot')
-    create_states_file_from_coordinates_file(analyze_settings_template_file, model_file_for_analysis,
-                                             coord_file_for_analysis, results_directory, IK_start_time, IK_end_time)
+

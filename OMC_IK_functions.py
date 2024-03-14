@@ -247,6 +247,58 @@ def create_states_file_from_coordinates_file(analyze_settings_template_file, mod
 
 
 
+# Define a function for extracting body orientations from the states table
+def extract_body_quats(states_table, model_file, results_dir, tag):
+
+    # Create the model and the bodies
+    model = osim.Model(model_file)
+    thorax = model.getBodySet().get('thorax')
+    humerus = model.getBodySet().get('humerus_r')
+    radius = model.getBodySet().get('radius_r')
+
+    # Unlock any locked coordinates in model
+    for coord in ['TH_x','TH_y','TH_z','TH_x_trans','TH_y_trans','TH_z_trans',
+                  'SC_x','SC_y','SC_z','AC_x','AC_y','AC_z','GH_y','GH_z','GH_yy','EL_x','PS_y']:
+        model.getCoordinateSet().get(coord).set_locked(False)
+
+    print("Getting states info from states file...")
+
+    # Get the states info from the states file (this is the step which is computationally slow)
+    stateTrajectory = osim.StatesTrajectory.createFromStatesTable(model, states_table)
+    n_rows = stateTrajectory.getSize()
+
+    # Initiate the system so that the model can actively realise positions based on states
+    model.initSystem()
+
+    def get_body_quat(state, body):
+        Rot = body.getTransformInGround(state).R()
+        quat = Rot.convertRotationToQuaternion()
+        output_quat = np.array([quat.get(0), quat.get(1), quat.get(2), quat.get(3)])
+        return output_quat
+
+    # Get the orientation of each body of interest
+    thorax_quats = np.zeros((n_rows, 4))
+    humerus_quats = np.zeros((n_rows, 4))
+    radius_quats = np.zeros((n_rows, 4))
+    for row in range(n_rows):
+        state = stateTrajectory.get(row)
+        model.realizePosition(state)
+        thorax_quats[row] = get_body_quat(state, thorax)
+        humerus_quats[row] = get_body_quat(state, humerus)
+        radius_quats[row] = get_body_quat(state, radius)
+
+    # Write all body quats to a csv file
+    thorax_quats_df = pd.DataFrame({"Thorax_Q0": thorax_quats[:,0],"Thorax_Q1": thorax_quats[:,1], "Thorax_Q2": thorax_quats[:,2], "Thorax_Q3": thorax_quats[:,3]})
+    humerus_quats_df = pd.DataFrame({"Humerus_Q0": humerus_quats[:,0],"Humerus_Q1": humerus_quats[:,1], "Humerus_Q2": humerus_quats[:,2],"Humerus_Q3": humerus_quats[:,3]})
+    radius_quats_df = pd.DataFrame({"Radius_Q0": radius_quats[:,0],"Radius_Q1": radius_quats[:,1], "Radius_Q2": radius_quats[:,2],"Radius_Q3": radius_quats[:,3]})
+    time_df = pd.DataFrame({"Time": np.asarray(states_table.getIndependentColumn())[:]})
+
+    all_quats_df = pd.concat([time_df, thorax_quats_df, humerus_quats_df, radius_quats_df], axis=1)
+
+    print("Writing " + tag + " orientations file to csv...")
+
+    all_quats_df.to_csv(results_dir + "\\" + tag + "_quats.csv", mode='w', encoding='utf-8', na_rep='nan')
+
 
 
 
