@@ -11,10 +11,9 @@ from OMC_IK_functions import *
 
 # Quick Settings
 subject_code = 'P2'
-trial_name_list = ['ADL']
-# trial_name_list = ['CP', 'JA_Slow', 'JA_Fast', 'ROM', 'ADL']
+trial_name_list = ['CP', 'JA_Slow', 'JA_Fast', 'ROM', 'ADL']
 sample_rate = 100
-use_full_data = True    # Option to use a smaller section by editing start and end time within the function (not tidy code)
+trim_bool = True    # Option to use a smaller section by editing start and end time within the function (not tidy code)
 
 # Define some file paths
 parent_dir = os.path.join(r'C:\Users\r03mm22\Documents\Protocol_Testing\2024 Data Collection', subject_code)
@@ -36,14 +35,18 @@ for trial_name in trial_name_list:
     osim.Logger.addFileSink(results_dir + r'\analysis.log')
 
     # Set end time by checking length of data
-    if use_full_data == False:
+    if trim_bool == True:
         start_time = 0
         end_time = 5
     else:
-        coords_table = osim.TimeSeriesTable(coord_file_for_analysis)
-        n_rows = coords_table.getNumRows()
-        start_time = 0
-        end_time = n_rows / sample_rate
+        if trial_name == 'ADL':
+            start_time = 0
+            end_time = 60
+        else:
+            coords_table = osim.TimeSeriesTable(coord_file_for_analysis)
+            n_rows = coords_table.getNumRows()
+            start_time = 0
+            end_time = n_rows / sample_rate
 
     # Create a states file to be used in comparisons with IMU data
     print(f'\nCreating {trial_name} states file from IK results mot file')
