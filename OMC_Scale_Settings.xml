@@ -263,7 +263,7 @@
 					</IKMarkerTask>
 					<IKMarkerTask name="GH">
 						<!--Whether or not this task will be used during inverse kinematics solve, default is true.-->
-						<apply>false</apply>
+						<apply>true</apply>
 						<!--Weight given to the task when solving inverse kinematics problems, default is 0.-->
 						<weight>1</weight>
 					</IKMarkerTask>
@@ -299,7 +299,7 @@
 					</IKMarkerTask>
 					<IKCoordinateTask name="TH_x">
 						<!--Whether or not this task will be used during inverse kinematics solve, default is true.-->
-						<apply>false</apply>
+						<apply>true</apply>
 						<!--Weight given to the task when solving inverse kinematics problems, default is 0.-->
 						<weight>1</weight>
 						<!--Indicates the source of the coordinate value for this task.  Possible values are default_value (use default value of coordinate, as specified in the model file, as the fixed target value), manual_value (use the value specified in the value property of this task as the fixed target value), or from_file (use the coordinate values from the coordinate data specified by the coordinates_file property).-->
@@ -309,7 +309,7 @@
 					</IKCoordinateTask>
 					<IKCoordinateTask name="TH_z">
 						<!--Whether or not this task will be used during inverse kinematics solve, default is true.-->
-						<apply>false</apply>
+						<apply>true</apply>
 						<!--Weight given to the task when solving inverse kinematics problems, default is 0.-->
 						<weight>1</weight>
 						<!--Indicates the source of the coordinate value for this task.  Possible values are default_value (use default value of coordinate, as specified in the model file, as the fixed target value), manual_value (use the value specified in the value property of this task as the fixed target value), or from_file (use the coordinate values from the coordinate data specified by the coordinates_file property).-->
