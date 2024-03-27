@@ -8,9 +8,9 @@ from OMC_IK_functions import *
 """ SETTINGS """
 
 # Quick Settings
-subject_code = 'P2'
-time_in_trc_for_scaling = 4     # Preview the trc to check for good static time with neutral pose
+subject_code = 'P1'
 trc_for_scaling = r'CP_marker_pos.trc'  # The movement data used to scale the OMC model
+time_in_trc_for_scaling = 6     # Preview the trc to check for good static time with neutral pose
 
 # Define some file paths
 parent_dir = r'C:\Users\r03mm22\Documents\Protocol_Testing\2024 Data Collection' + '\\' + subject_code

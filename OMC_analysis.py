@@ -10,10 +10,10 @@ from OMC_IK_functions import *
 """ SETTINGS """
 
 # Quick Settings
-subject_code = 'P2'
+subject_code = 'P1'
 trial_name_list = ['CP', 'JA_Slow', 'JA_Fast', 'ROM', 'ADL']
 sample_rate = 100
-trim_bool = True    # Option to use a smaller section by editing start and end time within the function (not tidy code)
+trim_bool = False    # Option to use a smaller section by editing start and end time within the function (not tidy code)
 
 # Define some file paths
 parent_dir = os.path.join(r'C:\Users\r03mm22\Documents\Protocol_Testing\2024 Data Collection', subject_code)
@@ -37,7 +37,7 @@ for trial_name in trial_name_list:
     # Set end time by checking length of data
     if trim_bool == True:
         start_time = 0
-        end_time = 5
+        end_time = 100
     else:
         if trial_name == 'ADL':
             start_time = 0

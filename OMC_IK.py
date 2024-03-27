@@ -8,7 +8,7 @@ from OMC_IK_functions import *
 """ SETTINGS """
 
 # Quick Settings
-subject_code = 'P2'
+subject_code = 'P1'
 trial_name_list = ['CP', 'JA_Slow', 'JA_Fast', 'ROM', 'ADL']
 trim_bool = False   # Whether to use the start and end times defined below
 IK_start_time = 205
