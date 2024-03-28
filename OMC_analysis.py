@@ -10,8 +10,9 @@ from OMC_IK_functions import *
 """ SETTINGS """
 
 # Quick Settings
-subject_code = 'P1'
-trial_name_list = ['CP', 'JA_Slow', 'JA_Fast', 'ROM', 'ADL']
+subject_code = 'P3'
+# trial_name_list = ['CP', 'JA_Slow', 'JA_Fast', 'ROM', 'ADL']
+trial_name_list = ['JA_Slow']
 sample_rate = 100
 trim_bool = False    # Option to use a smaller section by editing start and end time within the function (not tidy code)
 

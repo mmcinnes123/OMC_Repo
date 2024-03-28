@@ -9,10 +9,11 @@ from OMC_IK_functions import *
 
 # Quick Settings
 subject_code = 'P1'
-trial_name_list = ['CP', 'JA_Slow', 'JA_Fast', 'ROM', 'ADL']
-trim_bool = False   # Whether to use the start and end times defined below
-IK_start_time = 205
-IK_end_time = 220
+# trial_name_list = ['CP', 'JA_Slow', 'JA_Fast', 'ROM', 'ADL']
+trial_name_list = ['JA_Slow']
+trim_bool = True   # Whether to use the start and end times defined below
+IK_start_time = 0
+IK_end_time = 104
 
 # Define some file paths
 parent_dir = os.path.join(r'C:\Users\r03mm22\Documents\Protocol_Testing\2024 Data Collection', subject_code)
