@@ -8,7 +8,7 @@ import os
 """ SETTINGS """
 
 # Quick Settings
-subject_code = 'P1'
+subject_code = 'P4'
 trial_name_list = ['CP', 'JA_Slow', 'JA_Fast', 'ROM', 'ADL']
 sample_rate = 100
 

@@ -202,7 +202,7 @@ def run_scale_model(scale_settings_template_file, static_pose_time, trial_name, 
     time_range.set(1, static_pose_time + 0.01)
 
     # Initiate the scale tool
-    scale_tool = osim.ScaleTool(scale_settings_template_file)   # Template file to work off
+    scale_tool = osim.ScaleTool(scale_settings_template_file)   # Template file to work from
     scale_tool.getGenericModelMaker().setModelFileName('das3.osim') # Name of input model
 
     # Define settings for the scaling step
@@ -211,7 +211,7 @@ def run_scale_model(scale_settings_template_file, static_pose_time, trial_name, 
     model_scaler.setMarkerFileName(trc_file) # Marker file used for scaling
     model_scaler.setTimeRange(time_range) # Time range of the static pose
     model_scaler.setOutputModelFileName(results_path + r'\das3_scaled_only.osim')   # Name of the scaled model (before marker adjustment)
-    model_scaler.setOutputScaleFileName(results_path + r'\Scaling_Factors_' + trial_name + '.xml') #Outputs scaling factor results
+    model_scaler.setOutputScaleFileName(results_path + r'\Scaling_Factors_' + trial_name + '.xml') # Outputs scaling factor results
 
     # Define settings for the marker adjustment step
     marker_placer = scale_tool.getMarkerPlacer()
