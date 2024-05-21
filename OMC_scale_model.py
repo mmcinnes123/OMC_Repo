@@ -1,36 +1,41 @@
-# This script performs marker-based IK with OpenSim API
-# Input is a .trc file
-# Output is a scaled osim model and an .mot file
+# This script runs the scale tool in OpenSim, which simultaneously scales the model bodies and moves the model markers
+# Input is the template model file and a trc file with marker data at a static pose time
+# Output is a scaled model (without markers moved), a scaled model with markers moved, and a static pose .mot showing
+# results of the single IK step
+
+from OMC_helpers import run_scale_model
+from constants import scale_settings_template_file, template_model
 
 import os
-from OMC_IK_functions import *
+import opensim as osim
+from tkinter.filedialog import askdirectory
+
+
 
 """ SETTINGS """
 
 # Quick Settings
-subject_code = 'P1'
+subject_code = 'P5'
+static_time_dict = {'P1': 18, 'P2': 15, 'P3': 13, 'P4': 13}     # Input the time during trial at pose: N_asst
+time_in_trc_for_scaling = static_time_dict[subject_code]
 trc_for_scaling = r'CP_marker_pos.trc'  # The movement data used to scale the OMC model
-time_in_trc_for_scaling = 18     # Preview the trc to check for good static time with neutral pose (use N_asst from CP)
 
 # Define some file paths
-parent_dir = r'C:\Users\r03mm22\Documents\Protocol_Testing\2024 Data Collection' + '\\' + subject_code
-OMC_dir = parent_dir + r'\OMC'
-path_to_trc_file = OMC_dir + r'\OMC_trcs' + '\\' + trc_for_scaling
-trial_name = 'OMC'
+parent_dir = os.path.join(r'C:\Users\r03mm22\Documents\Protocol_Testing\2024 Data Collection', subject_code)
+OMC_dir = os.path.join(parent_dir, 'OMC')
+path_to_trc_file = os.path.join(OMC_dir, 'OMC_trcs', trc_for_scaling)
 osim.Logger.addFileSink(OMC_dir + r'\calibration.log')
-
-# SCALE SETTINGS
-scale_settings_template_file = 'OMC_Scale_Settings.xml'     # See run_scale_model() for more settings
 
 
 """ MAIN """
 
-# Check you've updated the static pose time in this script
-print("\nSet the static pose time in this script.")
-scaling_confirmation = input("\nHappy to go ahead with Scaling?: ")
-if scaling_confirmation == "No":
-    quit()
-
 # Scale the model
-run_scale_model(scale_settings_template_file, time_in_trc_for_scaling, trial_name, OMC_dir, path_to_trc_file)
+run_scale_model(scale_settings_template_file, template_model, time_in_trc_for_scaling, path_to_trc_file, OMC_dir)
 
+
+""" TEST """
+
+run_test = False
+if run_test == True:
+    OMC_dir = str(askdirectory(title=' Choose the folder where you want to save the calibrated model ... '))
+    run_scale_model(scale_settings_template_file, template_model, time_in_trc_for_scaling, path_to_trc_file, OMC_dir)

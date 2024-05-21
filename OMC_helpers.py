@@ -144,13 +144,13 @@ def MM_2_trc(input_file_name, sample_rate, output_file_name):
 
 
 
-def run_OMC_IK(IK_settings_template_file, trial_name, trim_bool, start_time, end_time,
+def run_OMC_IK(IK_settings_template_file, trim_bool, start_time, end_time,
                results_directory, marker_file_name, scaled_model_file_name):
 
     # Instantiate an InverseKinematicsTool from template
     IK_tool = osim.InverseKinematicsTool(IK_settings_template_file)
 
-    IK_tool.setName(trial_name)
+    IK_tool.setName('OMC')
     IK_tool.set_model_file(scaled_model_file_name)
     IK_tool.set_marker_file(marker_file_name)
     IK_tool.set_results_directory(results_directory)
@@ -162,15 +162,15 @@ def run_OMC_IK(IK_settings_template_file, trial_name, trim_bool, start_time, end
         IK_tool.set_time_range(1, end_time)
 
     # Update the settings in a setup file
-    IK_tool.printToXML(results_directory + r'\IK_Settings_' + trial_name + '.xml')
+    IK_tool.printToXML(results_directory + r'\IK_Settings.xml')
 
     # Run IK
     IK_tool.run()
 
 
-def find_marker_error(trial_name, results_dir):
+def find_marker_error(results_dir):
 
-    marker_error_file = results_dir + "\\" + trial_name + "_ik_marker_errors.sto"
+    marker_error_file = results_dir + r"\OMC_ik_marker_errors.sto"
     error_table = osim.TimeSeriesTable(marker_error_file)
     RMSE_column = error_table.getDependentColumn("marker_error_RMS").to_numpy()
     average_RMSE = np.round(np.mean(RMSE_column), 4)
@@ -194,7 +194,7 @@ def visualize(model_file_name):
     # viz.showModel(model)
 
 
-def run_scale_model(scale_settings_template_file, static_pose_time, trial_name, results_path, trc_file):
+def run_scale_model(scale_settings_template_file, template_model, static_pose_time, trc_file, results_path):
 
     # Set time range of the moment the subject performed the static pose
     time_range = osim.ArrayDouble()
@@ -203,7 +203,7 @@ def run_scale_model(scale_settings_template_file, static_pose_time, trial_name, 
 
     # Initiate the scale tool
     scale_tool = osim.ScaleTool(scale_settings_template_file)   # Template file to work from
-    scale_tool.getGenericModelMaker().setModelFileName('das3.osim') # Name of input model
+    scale_tool.getGenericModelMaker().setModelFileName(template_model)  # Name of input model
 
     # Define settings for the scaling step
     model_scaler = scale_tool.getModelScaler()
@@ -211,7 +211,7 @@ def run_scale_model(scale_settings_template_file, static_pose_time, trial_name, 
     model_scaler.setMarkerFileName(trc_file) # Marker file used for scaling
     model_scaler.setTimeRange(time_range) # Time range of the static pose
     model_scaler.setOutputModelFileName(results_path + r'\das3_scaled_only.osim')   # Name of the scaled model (before marker adjustment)
-    model_scaler.setOutputScaleFileName(results_path + r'\Scaling_Factors_' + trial_name + '.xml') # Outputs scaling factor results
+    model_scaler.setOutputScaleFileName(results_path + r'\Scaling_Factors_OMC.xml') # Outputs scaling factor results
 
     # Define settings for the marker adjustment step
     marker_placer = scale_tool.getMarkerPlacer()
@@ -223,7 +223,7 @@ def run_scale_model(scale_settings_template_file, static_pose_time, trial_name, 
     # marker_placer.setMaxMarkerMovement(-1)    # Maximum amount of movement allowed in marker data when averaging
 
     # Save adjusted scale settings
-    scale_tool.printToXML(results_path + r'\Scale_Settings_' + trial_name + '.xml')
+    scale_tool.printToXML(results_path + r'\Scale_Settings_OMC.xml')
 
     # Run the scale tool
     scale_tool.run()
