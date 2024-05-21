@@ -13,7 +13,7 @@ from tkinter.filedialog import askopenfilename, askdirectory
 """ SETTINGS """
 
 # Quick Settings
-subject_code_list = ['P4']
+subject_code_list = ['P5']
 trial_name_list = ['CP', 'JA_Slow', 'JA_Fast', 'ROM', 'ADL']
 trim_bool = False   # Whether to use the start and end times defined below (as a rule, set to False)
 IK_start_time = 0
@@ -37,8 +37,9 @@ for subject_code in subject_code_list:
         # Define some file paths
         path_to_trc_file = os.path.join(OMC_trs_dir, trial_name + r'_marker_pos.trc')     # Define a path to the marker data
         results_directory = os.path.join(OMC_dir, trial_name + '_IK_Results')       # Define a name for new IK results folder
-        if not os.path.exists(results_directory):
-            os.mkdir(results_directory)
+        # Make the IK results directory if it doesn't already exist
+        os.makedirs(results_directory, exist_ok=True)
+        # Add a new opensim.log
         osim.Logger.addFileSink(results_directory + r'\IK.log')
 
         """ MAIN """
@@ -67,5 +68,6 @@ if run_test == True:
     # Run the IK
     run_OMC_IK(IK_settings_template_file, trim_bool, IK_start_time, IK_end_time,
                results_directory, path_to_trc_file, path_to_scaled_model)
+
     # Log the marker error
     find_marker_error(results_directory)
