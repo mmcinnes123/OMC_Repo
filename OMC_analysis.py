@@ -1,26 +1,28 @@
-# This script extracts some more info from the IK results .mot file
-# By creating a 'states' file, the calibrated OMC model is match to each state and the time-varying orientation of
-# each body can be extracted
-# Input is a .mot file
-# Output is a states .sto file and a .csv file with body orientations (quaternions)
+# This script runs the OpenSim Analyse tool to extracts a .sto file with time-series body orientation data
+# from the .mot IK results file
+# Input is a .mot file and the model which was used for the IK
+# Output is an .sto file called 'analyze_BodyKinematics_pos_global.sto' which contains the model bodies orientations in
+# XYZ euler angles
 
+from OMC_helpers import run_analyze_tool
+from constants import analyze_settings_template_file, sample_rate
+
+import opensim as osim
 import os
-from OMC_IK_functions import *
+from tkinter.filedialog import askopenfilename, askdirectory
 
 """ SETTINGS """
 
 # Quick Settings
-subject_code_list = ['P1', 'P2', 'P3']
+subject_code_list = ['P4']
 trial_name_list = ['CP', 'JA_Slow', 'JA_Fast', 'ROM', 'ADL']
-sample_rate = 100
 trim_bool = False    # Option to use a smaller section by editing start and end time within the function (not tidy code)
+start_time = 0
+end_time = 100
 
-# ANALYZE SETTINGS
-analyze_settings_template_file = 'Analyze_Settings.xml'
+""" MAIN """
 
-
-
-# Iterate through the collection of movement types
+# Iterate through the subjects and collection of movement types
 
 for subject_code in subject_code_list:
 
@@ -39,11 +41,8 @@ for subject_code in subject_code_list:
         osim.Logger.addFileSink(results_dir + r'\analysis.log')
 
         # Set end time by checking length of data
-        if trim_bool == True:
-            start_time = 0
-            end_time = 100
-        else:
-            if trial_name == 'ADL':
+        if trim_bool == False:
+            if trial_name == 'ADL':     # Only run for the first 60s of the ADL trial
                 start_time = 0
                 end_time = 60
             else:
@@ -52,7 +51,32 @@ for subject_code in subject_code_list:
                 start_time = 0
                 end_time = n_rows / sample_rate
 
-        """ MAIN """
+        # Run the analyze tool to output the BodyKinematics.sto
+        run_analyze_tool(analyze_settings_template_file, results_dir, model_file_for_analysis,
+                         coord_file_for_analysis, start_time, end_time)
 
-        run_analyze_tool(analyze_settings_template_file, results_dir, model_file_for_analysis, coord_file_for_analysis, start_time, end_time)
 
+
+""" TEST """
+
+run_test = False
+if run_test == True:
+
+    # Settings
+    trim_bool = False
+    start_time = 0
+    end_time = 100
+    model_file_for_analysis = str(askopenfilename(title=' Choose the OMC calibrated model file used in the anlaysis ... '))
+    coord_file_for_analysis = str(askopenfilename(title=' Choose the .mot coords file used in the anlaysis ... '))
+    results_dir = str(askdirectory(title=' Choose the folder where you want to save the analysis results ... '))
+
+    # Set end time by checking length of data
+    if trim_bool == False:
+        coords_table = osim.TimeSeriesTable(coord_file_for_analysis)
+        n_rows = coords_table.getNumRows()
+        start_time = 0
+        end_time = n_rows / sample_rate
+
+    # Run the analyze tool to output the BodyKinematics.sto
+    run_analyze_tool(analyze_settings_template_file, results_dir, model_file_for_analysis,
+                     coord_file_for_analysis, start_time, end_time)

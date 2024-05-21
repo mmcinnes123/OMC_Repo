@@ -247,15 +247,18 @@ def create_states_file_from_coordinates_file(analyze_settings_template_file, mod
 def run_analyze_tool(analyze_settings_template_file, results_dir, model_file_path, mot_file_path, start_time, end_time):
 
     analyze_Tool = osim.AnalyzeTool(analyze_settings_template_file)
-    analyze_Tool.updAnalysisSet().cloneAndAppend(osim.BodyKinematics())
     analyze_Tool.setModelFilename(model_file_path)
     analyze_Tool.setName("analyze")
     analyze_Tool.setCoordinatesFileName(mot_file_path)
     analyze_Tool.setStartTime(start_time)
     analyze_Tool.setFinalTime(end_time)
     analyze_Tool.setResultsDir(results_dir)
+    analyze_Tool.printToXML(results_dir + r'\Analyse_Settings.xml')     # Save the analysis settings to xml
+
+    # Read the saved analysis settings to run the tool (had to do this to get it to read model file correctly)
+    new_analyze_Tool = osim.AnalyzeTool(results_dir + r'\Analyse_Settings.xml')
     print('Running Analyze Tool...')
-    analyze_Tool.run()
+    new_analyze_Tool.run()
     print('Analyze Tool run finished.')
 
 
