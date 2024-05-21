@@ -37,5 +37,6 @@ run_scale_model(scale_settings_template_file, template_model, time_in_trc_for_sc
 
 run_test = False
 if run_test == True:
+
     OMC_dir = str(askdirectory(title=' Choose the folder where you want to save the calibrated model ... '))
     run_scale_model(scale_settings_template_file, template_model, time_in_trc_for_scaling, path_to_trc_file, OMC_dir)

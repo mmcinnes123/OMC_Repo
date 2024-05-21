@@ -143,7 +143,6 @@ def MM_2_trc(input_file_name, sample_rate, output_file_name):
     print("Written data to .trc file")
 
 
-
 def run_OMC_IK(IK_settings_template_file, trim_bool, start_time, end_time,
                results_directory, marker_file_name, scaled_model_file_name):
 
@@ -180,7 +179,6 @@ def find_marker_error(results_dir):
     f = open(results_dir + r"\Marker_RMSE.txt", "w")
     f.write(message)
     f.close()
-
 
 
 def visualize(model_file_name):
@@ -241,7 +239,6 @@ def create_states_file_from_coordinates_file(analyze_settings_template_file, mod
     analyze_tool.setFinalTime(end_time)
     analyze_tool.setName("OMC")
     analyze_tool.run()
-
 
 
 def run_analyze_tool(analyze_settings_template_file, results_dir, model_file_path, mot_file_path, start_time, end_time):

@@ -11,6 +11,7 @@ import opensim as osim
 import os
 from tkinter.filedialog import askopenfilename, askdirectory
 
+
 """ SETTINGS """
 
 # Quick Settings
@@ -19,6 +20,7 @@ trial_name_list = ['CP', 'JA_Slow', 'JA_Fast', 'ROM', 'ADL']
 trim_bool = False    # Option to use a smaller section by editing start and end time within the function (not tidy code)
 start_time = 0
 end_time = 100
+
 
 """ MAIN """
 
@@ -54,7 +56,6 @@ for subject_code in subject_code_list:
         # Run the analyze tool to output the BodyKinematics.sto
         run_analyze_tool(analyze_settings_template_file, results_dir, model_file_for_analysis,
                          coord_file_for_analysis, start_time, end_time)
-
 
 
 """ TEST """

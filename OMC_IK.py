@@ -56,12 +56,14 @@ for subject_code in subject_code_list:
 run_test = False
 if run_test == True:
 
+    # Settings
     trim_bool = True  # Whether to use the start and end times defined below (as a rule, set to False)
     IK_start_time = 0
     IK_end_time = 5
-    results_directory = str(askdirectory(title=' Choose the folder where you want to save the IK results ... '))
     path_to_trc_file = str(askopenfilename(title=' Choose the trc marker file used to drive the IK ... '))
     path_to_scaled_model = str(askopenfilename(title=' Choose the scaled model used for the IK ... '))
+    results_directory = str(askdirectory(title=' Choose the folder where you want to save the IK results ... '))
+
     # Run the IK
     run_OMC_IK(IK_settings_template_file, trim_bool, IK_start_time, IK_end_time,
                results_directory, path_to_trc_file, path_to_scaled_model)

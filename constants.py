@@ -1,7 +1,6 @@
 # This script contains a list of constant settings used throughout the repo
 
 sample_rate = 100
-
 template_model = 'das3.osim'
 
 # Settings files
