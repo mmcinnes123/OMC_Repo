@@ -1,24 +1,28 @@
 # This script performs marker-based IK with OpenSim API
-# Input is a .trc file
-# Output is a scaled osim model and an .mot file
+# Input is a .trc file and a scaled osim model
+# Output is an .mot file
+
+from OMC_helpers import run_OMC_IK, find_marker_error
+from constants import IK_settings_template_file
 
 import os
-from OMC_IK_functions import *
+import opensim as osim
+from tkinter.filedialog import askopenfilename, askdirectory
+
 
 """ SETTINGS """
 
 # Quick Settings
-subject_code_list = ['P1', 'P2', 'P3']
+subject_code_list = ['P4']
 trial_name_list = ['CP', 'JA_Slow', 'JA_Fast', 'ROM', 'ADL']
-trim_bool = False   # Whether to use the start and end times defined below
+trim_bool = False   # Whether to use the start and end times defined below (as a rule, set to False)
 IK_start_time = 0
 IK_end_time = 104
 
-# IK SETTINGS
-IK_settings_template_file = 'OMC_IK_Settings.xml'   # See run_OMC_IK() for more settings.
 
+""" MAIN """
 
-# Iterate through the collection of movement types
+# Iterate through the collection of subjects and movement types
 
 for subject_code in subject_code_list:
 
@@ -30,24 +34,36 @@ for subject_code in subject_code_list:
 
     for trial_name in trial_name_list:
 
-        """ MAIN """
-
+        # Define some file paths
         path_to_trc_file = os.path.join(OMC_trs_dir, trial_name + r'_marker_pos.trc')     # Define a path to the marker data
-
-        # Create a new results directory
-        results_directory = os.path.join(OMC_dir, trial_name + '_IK_Results')       # Define a name for the new IK results folder
-        if os.path.exists(results_directory) == False:
+        results_directory = os.path.join(OMC_dir, trial_name + '_IK_Results')       # Define a name for new IK results folder
+        if not os.path.exists(results_directory):
             os.mkdir(results_directory)
         osim.Logger.addFileSink(results_directory + r'\IK.log')
 
+        """ MAIN """
 
         # Run the IK
-        run_OMC_IK(IK_settings_template_file, trial_name, trim_bool, IK_start_time, IK_end_time,
+        run_OMC_IK(IK_settings_template_file, trim_bool, IK_start_time, IK_end_time,
                    results_directory, path_to_trc_file, path_to_scaled_model)
 
-
         # Log the marker error
-        find_marker_error(trial_name, results_directory)
+        find_marker_error(results_directory)
 
 
+""" TEST """
 
+run_test = False
+if run_test == True:
+
+    trim_bool = True  # Whether to use the start and end times defined below (as a rule, set to False)
+    IK_start_time = 0
+    IK_end_time = 5
+    results_directory = str(askdirectory(title=' Choose the folder where you want to save the IK results ... '))
+    path_to_trc_file = str(askopenfilename(title=' Choose the trc marker file used to drive the IK ... '))
+    path_to_scaled_model = str(askopenfilename(title=' Choose the scaled model used for the IK ... '))
+    # Run the IK
+    run_OMC_IK(IK_settings_template_file, trim_bool, IK_start_time, IK_end_time,
+               results_directory, path_to_trc_file, path_to_scaled_model)
+    # Log the marker error
+    find_marker_error(results_directory)
