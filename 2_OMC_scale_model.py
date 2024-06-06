@@ -8,14 +8,14 @@ from constants import scale_settings_template_file, template_model
 
 import os
 import opensim as osim
-from tkinter.filedialog import askdirectory
+from tkinter.filedialog import askdirectory, askopenfilename
 
 
 """ SETTINGS """
 
 # Quick Settings
-subject_code = 'P5'
-static_time_dict = {'P1': 18, 'P2': 15, 'P3': 13, 'P4': 13, 'P5': 25}     # Input the time during CP trial at pose: N_asst
+subject_code = 'P9'
+static_time_dict = {'P1': 18, 'P2': 15, 'P3': 13, 'P4': 13, 'P5': 25, 'P6': 18, 'P7': 20, 'P8': 30, 'P9': 27}     # Input the time during CP trial at pose: N_asst
 time_in_trc_for_scaling = static_time_dict[subject_code]
 trc_for_scaling = r'CP_marker_pos.trc'  # The movement data used to scale the OMC model
 
@@ -35,7 +35,14 @@ run_scale_model(scale_settings_template_file, template_model, time_in_trc_for_sc
 """ TEST """
 
 run_test = False
-if run_test == True:
+if run_test:
+
+    template_model = 'das3_with_carry_angleDOF.osim'
+    subject_code = 'P7'
+    static_time_dict = {'P1': 18, 'P2': 15, 'P3': 13, 'P4': 13, 'P5': 25, 'P6': 18,
+                        'P7': 48}  # Input the time during CP trial at pose: N_asst
+    time_in_trc_for_scaling = static_time_dict[subject_code]
 
     OMC_dir = str(askdirectory(title=' Choose the folder where you want to save the calibrated model ... '))
+
     run_scale_model(scale_settings_template_file, template_model, time_in_trc_for_scaling, trc_file_path, OMC_dir)

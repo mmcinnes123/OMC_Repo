@@ -15,8 +15,9 @@ from tkinter.filedialog import askopenfilename, askdirectory
 """ SETTINGS """
 
 # Quick Settings
-subject_code_list = ['P5']
+subject_code_list = ['P9']
 trial_name_list = ['CP', 'JA_Slow', 'JA_Fast', 'ROM', 'ADL']
+# trial_name_list = ['CP', 'JA_Slow', 'JA_Fast', 'ROM'] # Use for P6 and P7 where ADL data is missing
 trim_bool = False    # Option to use a smaller section by editing start and end time within the function (not tidy code)
 start_time = 0
 end_time = 100
@@ -61,7 +62,7 @@ for subject_code in subject_code_list:
 """ TEST """
 
 run_test = False
-if run_test == True:
+if run_test:
 
     # Settings
     trim_bool = False

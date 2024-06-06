@@ -10,8 +10,9 @@ import os
 """ SETTINGS """
 
 # Quick Settings
-subject_code_list = ['P5']
+subject_code_list = ['P9']
 trial_name_list = ['CP', 'JA_Slow', 'JA_Fast', 'ROM', 'ADL']
+# trial_name_list = ['CP', 'JA_Slow', 'JA_Fast', 'ROM'] # Use for P6 and P7 where ADL data is missing
 
 
 """ MAIN """

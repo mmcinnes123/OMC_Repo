@@ -13,8 +13,9 @@ from tkinter.filedialog import askopenfilename, askdirectory
 """ SETTINGS """
 
 # Quick Settings
-subject_code_list = ['P5']
+subject_code_list = ['P9']
 trial_name_list = ['CP', 'JA_Slow', 'JA_Fast', 'ROM', 'ADL']
+# trial_name_list = ['CP', 'JA_Slow', 'JA_Fast', 'ROM'] # Use for P6 and P7 where ADL data is missing
 trim_bool = False   # Whether to use the start and end times defined below (as a rule, set to False)
 IK_start_time = 0
 IK_end_time = 104
@@ -55,10 +56,10 @@ for subject_code in subject_code_list:
 """ TEST """
 
 run_test = False
-if run_test == True:
+if run_test:
 
     # Settings
-    trim_bool = True  # Whether to use the start and end times defined below (as a rule, set to False)
+    trim_bool = False  # Whether to use the start and end times defined below (as a rule, set to False)
     IK_start_time = 0
     IK_end_time = 5
     path_to_trc_file = str(askopenfilename(title=' Choose the trc marker file used to drive the IK ... '))
