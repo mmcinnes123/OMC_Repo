@@ -15,8 +15,8 @@ from tkinter.filedialog import askopenfilename, askdirectory
 """ SETTINGS """
 
 # Quick Settings
-subject_code_list = ['P9']
-trial_name_list = ['CP', 'JA_Slow', 'JA_Fast', 'ROM', 'ADL']
+subject_code_list = ['P1']
+trial_name_list = ['CP', 'JA_Slow']
 # trial_name_list = ['CP', 'JA_Slow', 'JA_Fast', 'ROM'] # Use for P6 and P7 where ADL data is missing
 trim_bool = False    # Option to use a smaller section by editing start and end time within the function (not tidy code)
 start_time = 0
@@ -40,7 +40,6 @@ for subject_code in subject_code_list:
         # Specify where to get the IK results files and the newly create states file
         results_dir = os.path.join(OMC_dir, trial_name + '_IK_Results')
         coord_file_for_analysis = os.path.join(results_dir, 'OMC_IK_results.mot')
-        states_file_path = os.path.join(results_dir, 'OMC_StatesReporter_states.sto')
         osim.Logger.addFileSink(results_dir + r'\analysis.log')
 
         # Set end time by checking length of data
@@ -61,7 +60,7 @@ for subject_code in subject_code_list:
 
 """ TEST """
 
-run_test = False
+run_test = True
 if run_test:
 
     # Settings

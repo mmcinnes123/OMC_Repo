@@ -1,7 +1,7 @@
 # This script contains a list of constant settings used throughout the repo
 
 sample_rate = 100
-template_model = 'das3.osim'
+OMC_template_model = 'das3.osim'
 
 # Settings files
 scale_settings_template_file = 'OMC_Scale_Settings.xml'  # See run_scale_model() for more settings

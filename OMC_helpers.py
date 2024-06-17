@@ -143,7 +143,7 @@ def MM_2_trc(input_file_name, sample_rate, output_file_name):
     print("Written data to .trc file")
 
 
-def run_OMC_IK(IK_settings_template_file, trim_bool, start_time, end_time,
+def run_osim_OMC_IK_tool(IK_settings_template_file, trim_bool, start_time, end_time,
                results_directory, marker_file_name, scaled_model_file_name):
 
     # Instantiate an InverseKinematicsTool from template
@@ -192,7 +192,7 @@ def visualize(model_file_name):
     # viz.showModel(model)
 
 
-def run_scale_model(scale_settings_template_file, template_model, static_pose_time, trc_file, results_path):
+def run_osim_scale_tool(scale_settings_template_file, template_model, static_pose_time, trc_file, results_path):
 
     # Set time range of the moment the subject performed the static pose
     time_range = osim.ArrayDouble()
