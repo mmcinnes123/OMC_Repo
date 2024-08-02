@@ -57,37 +57,8 @@ def MM_2_trc(input_file_name, sample_rate, output_file_name):
                 }
 
     # Read in MM .txt file
-    print("Reading in data...")
+    print(f"Reading in data from {input_file_name}...")
     dataset = pd.read_csv(input_file_name, delimiter="\t")
-
-    # Remove any values above the cutoff, to account for unstable/large values produced by MM interpolation
-    largest_value_in_dataset = dataset.max(numeric_only=True).max()
-    cutoff = 10
-    if largest_value_in_dataset > cutoff:
-        print("Large values encountered (above " + str(cutoff) + "m) from the following markers:")
-    pd.set_option('display.max_rows', None)
-    max_values = pd.DataFrame(dataset.max())
-    for row in range(len(max_values)):
-        if max_values.iloc[row, 0] > cutoff:
-            print(max_values.head(len(max_values)).index.values[row])
-    # # Replace values above/below cutoff with Nan
-    # dataset.where(dataset <= cutoff, inplace=True)
-    # dataset.where(dataset >= -cutoff, inplace=True)
-
-    # # Fill NaN values with linear interpolation
-    # print("\nInterpolating any Nan values...")
-    # def interpolate_df(df):
-    #     nan_count = df.isna().sum()
-    #     pd.set_option('display.max_rows', None)
-    #     print("Number of NaNs encountered:")
-    #     print(nan_count)
-    #     df = df.interpolate()
-    #     # Deal with any nans at start
-    #     df = df.interpolate(method='linear', limit=100, limit_direction='backward')
-    #     return df
-    # dataset = interpolate_df(dataset)
-
-    print("Extracting data from MM file... ")
 
     # Extract all the data and append to Data_out dataframe
     for index in range(dataset.shape[0]):
@@ -140,7 +111,7 @@ def MM_2_trc(input_file_name, sample_rate, output_file_name):
     writeTRC(data_out, outputfile)
     outputfile.close()
 
-    print("Written data to .trc file")
+    print(f"Written data to {output_file_name}.")
 
 
 def run_osim_OMC_IK_tool(IK_settings_template_file, trim_bool, start_time, end_time,

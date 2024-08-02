@@ -1,5 +1,5 @@
 # This script performs marker-based IK with OpenSim API
-# Input is a .trc file and a scaled osim model
+# Input is a .trc file and a scaled OpenSim model
 # Output is an .mot file
 
 from OMC_helpers import run_osim_OMC_IK_tool, find_marker_error, run_analyze_tool
@@ -15,11 +15,11 @@ def run_OMC_IK(subject_code, trial_name, run_analysis, test):
 
     """ SETTINGS """
 
-    # Input settings manually if running single test
+    # Input settings/files manually if running single test
     if test:
         results_directory = str(askdirectory(title=' Choose the folder where the IK results will be saved ... '))
         scaled_model = str(askopenfilename(title=' Choose the scaled .osim model to run the IK ... '))
-        path_to_trc_file = str(askopenfilename(title=' Choose the .trc file to run the IK ... '))
+        trc_file_path = str(askopenfilename(title=' Choose the .trc file to run the IK ... '))
         trim_bool_str = input('IK trim bool (True or False):')
         if trim_bool_str == 'True':
             trim_bool = True
@@ -36,9 +36,7 @@ def run_OMC_IK(subject_code, trial_name, run_analysis, test):
         OMC_dir = join(parent_dir, 'OMC')
         OMC_trs_dir = join(OMC_dir, 'OMC_trcs')
         scaled_model = join(OMC_dir, 'das3_scaled_and_placed.osim')  # Define a path to the scaled model
-
-        # Define some file paths
-        path_to_trc_file = join(OMC_trs_dir, trial_name + r'_marker_pos.trc')  # Define a path to the marker data
+        trc_file_path = join(OMC_trs_dir, trial_name + r'_marker_pos.trc')  # Define a path to the marker data
         results_directory = join(OMC_dir, trial_name + '_IK_Results')  # Define a name for new IK results folder
 
         # Make the IK results directory if it doesn't already exist
@@ -55,17 +53,16 @@ def run_OMC_IK(subject_code, trial_name, run_analysis, test):
 
     # Run the IK
     run_osim_OMC_IK_tool(IK_settings_template_file, trim_bool, IK_start_time, IK_end_time, results_directory,
-                         path_to_trc_file, scaled_model)
+                         trc_file_path, scaled_model)
 
     # Log the marker error
     find_marker_error(results_directory)
-
 
     """ ANALYSIS """
 
     if run_analysis:
 
-        # Specify where to get the IK results files and the newly create states file
+        # Specify where to get the IK results file
         coord_file_for_analysis = join(results_directory, 'OMC_IK_results.mot')
         osim.Logger.addFileSink(results_directory + r'\analysis.log')
 
@@ -86,6 +83,7 @@ def run_OMC_IK(subject_code, trial_name, run_analysis, test):
         # Run the analyze tool to output the BodyKinematics.sto
         run_analyze_tool(analyze_settings_template_file, results_directory, scaled_model,
                          coord_file_for_analysis, analysis_start_time, analysis_end_time)
+
 
 """ TEST """
 
